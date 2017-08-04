@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const container_1 = require("./container");
 const http_1 = require("./_http/http");
+const utils_1 = require("./utils/utils");
 var http_2 = require("./_http/http");
 exports.HttpRequestMethod = http_2.HttpRequestMethod;
 exports.Request = http_2.Request;
@@ -21,7 +22,6 @@ exports.Service = Service_1.Service;
 var BackApplication_1 = require("./BackApplication");
 exports.BackApplication = BackApplication_1.BackApplication;
 class Back {
-    // static configs : {use: any[], set: any};
     static prepare(app) {
         Back.applyConfigs(app);
         console.log("1111111111111111111111");
@@ -45,14 +45,10 @@ class Back {
                 else {
                     httpRequestMethod = "delete";
                 }
-                console.log("router[httpRequestMethod]: " + router[httpRequestMethod]);
-                console.log("methodHandler:" + methodHandler);
                 router[httpRequestMethod].call(router, methodHandler.route, (req, res, next) => {
                     methodHandler.call(req, res, next);
                 });
             }
-            console.log("back croute :" + controllerHandler.route);
-            console.log("back route :" + router);
             app.use(controllerHandler.route, router);
         }
     }
@@ -63,18 +59,19 @@ class Back {
         Back.Container.components = [];
     }
     static applyConfigs(app) {
-        // console.log(Back.configs)
-        // Back.configs.use
-        //     .forEach( middleware => {
-        //         console.log("middleware:" + middleware)
-        //         app.use(middleware);
-        //     });
-        // for (let setting in Back.configs.set) {
-        //     let _setting = splitCamelCase(setting).toLocaleLowerCase();
-        //     app.set(_setting, Back.configs.set[setting]);
-        // }
+        console.log(Back.configs);
+        Back.configs.use
+            .forEach(middleware => {
+            console.log("middleware:" + middleware);
+            app.use(middleware);
+        });
+        for (let setting in Back.configs.set) {
+            let _setting = utils_1.splitCamelCase(setting).toLocaleLowerCase();
+            app.set(_setting, Back.configs.set[setting]);
+        }
     }
 }
 Back.express = express;
 Back.Container = container_1.Container;
+Back.configs = { use: [], set: {} };
 exports.Back = Back;

@@ -18,46 +18,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../back/index");
-// import { AccountsDao } from "../dao/AccountsDao";
-const typeorm_1 = require("typeorm");
-const Accounts_1 = require("../entity/Accounts");
-const crypto_1 = require("../../utils/crypto");
-let AccountsService = class AccountsService {
+let ServerInfoController = class ServerInfoController {
     constructor() { }
-    getAccount(account) {
-        let postRepository = typeorm_1.getEntityManager().getRepository(Accounts_1.Accounts);
-        let posts = postRepository.findOneById(account);
-        return posts;
-    }
-    setAccount(account, password) {
+    ServerInfo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let postRepository = typeorm_1.getEntityManager().getRepository(Accounts_1.Accounts);
-            let accountSave = new Accounts_1.Accounts();
-            accountSave.account = account;
-            accountSave.password = crypto_1.md5Util(password);
-            let res = postRepository.persist(accountSave);
-            return res;
-        });
-    }
-    /**
-     * 校验账号是否存在
-     * @param account
-     */
-    checkAccount(account) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let postRepository = typeorm_1.getEntityManager().getRepository(Accounts_1.Accounts);
-            let posts = yield postRepository.findOneById(account);
-            if (posts) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return {
+                erode: 0,
+                errs: "ok",
+                ver: index_1.Back.configs.set['VERSION'],
+                hall: index_1.Back.configs.set['HALL_IP'] + ":" + index_1.Back.configs.set['HALL_CLIENT_PORT']
+            };
         });
     }
 };
-AccountsService = __decorate([
-    index_1.Service,
+__decorate([
+    index_1.Get("/"),
+    index_1.ResponseBody,
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [index_1.Request, index_1.Response]),
+    __metadata("design:returntype", Promise)
+], ServerInfoController.prototype, "ServerInfo", null);
+ServerInfoController = __decorate([
+    index_1.Controller,
+    index_1.Route("/serverinfo"),
     __metadata("design:paramtypes", [])
-], AccountsService);
-exports.AccountsService = AccountsService;
+], ServerInfoController);

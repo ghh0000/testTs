@@ -19,45 +19,77 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../back/index");
 const AccountsService_1 = require("../service/AccountsService");
-/**
- *  账号注册
- *
- *  param:
- *      account string 账号
- *      password string 密码
- *
- **/
-let RegisterController = class RegisterController {
+const crypto_1 = require("../../utils/crypto");
+let uuid = require("uuid");
+let LoginController = class LoginController {
     constructor(accountsService) {
         this.accountsService = accountsService;
     }
-    register(req, res, account, password) {
+    /**
+     *  账号登录
+     *
+     *  param:
+     *      account string 账号
+     *      password string 密码
+     *
+     **/
+    auth(req, res, account, password) {
         return __awaiter(this, void 0, void 0, function* () {
             let flag = yield this.accountsService.checkAccount(account); //判断账号是否已经存在
             if (flag) {
-                return { erode: 1, errs: "account has been used." };
+                let prefixAccount = "ChessAndCard_" + account;
+                // TODO
+                // 创建user
+                return {
+                    erode: 0,
+                    errs: "ok",
+                    account: prefixAccount,
+                    sign: crypto_1.md5Util(prefixAccount + req.ip + index_1.Back.configs.set['ACCOUNT_PRI_KEY'])
+                };
             }
             else {
-                let result = yield this.accountsService.setAccount(account, password);
-                if (result) {
-                    return { erode: 0, errs: "ok" };
-                }
-                else {
-                    return { erode: 2, errs: "account save failed." };
-                }
+                return { erode: 3, errs: "invalid account" };
+            }
+        });
+    }
+    guest(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let guestAccount = uuid.v1();
+            let password = '123456';
+            let result = yield this.accountsService.setAccount(guestAccount, password);
+            if (result) {
+                let prefixAccount = "ChessAndCardGuest_" + guestAccount;
+                // TODO
+                // 创建user
+                return {
+                    erode: 0,
+                    errs: "ok",
+                    account: guestAccount,
+                    sign: crypto_1.md5Util(prefixAccount + req.ip + index_1.Back.configs.set['ACCOUNT_PRI_KEY'])
+                };
+            }
+            else {
+                return { erode: 4, errs: "visitor account failed" };
             }
         });
     }
 };
 __decorate([
-    index_1.Get("/"),
+    index_1.Get("/auth"),
     index_1.ResponseBody,
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [index_1.Request, index_1.Response, String, String]),
     __metadata("design:returntype", Promise)
-], RegisterController.prototype, "register", null);
-RegisterController = __decorate([
+], LoginController.prototype, "auth", null);
+__decorate([
+    index_1.Get("/guest"),
+    index_1.ResponseBody,
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [index_1.Request, index_1.Response]),
+    __metadata("design:returntype", Promise)
+], LoginController.prototype, "guest", null);
+LoginController = __decorate([
     index_1.Controller,
-    index_1.Route("/register"),
+    index_1.Route("/login"),
     __metadata("design:paramtypes", [AccountsService_1.AccountsService])
-], RegisterController);
+], LoginController);

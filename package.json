@@ -10,6 +10,7 @@
         "express": "^4.15.3",
         "get-parameter-names": "^0.3.0",
         "injection-js": "^2.1.0",
+        "md5": "^2.2.1",
         "mocha": "^3.4.2",
         "mysql": "^2.14.0",
         "reflect-metadata": "^0.1.10",
@@ -17,6 +18,7 @@
         "ts-node": "^3.3.0",
         "tslint": "^5.5.0",
         "typeorm": "0.1.0-alpha.33",
-        "typescript": "^2.4.2"
+        "typescript": "^2.4.2",
+        "uuid": "^3.1.0"
     }
 }

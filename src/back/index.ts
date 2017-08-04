@@ -10,7 +10,7 @@ export { BackApplication } from "./BackApplication";
 export class Back {
     static express = express;
     static Container = Container;
-    // static configs : {use: any[], set: any};
+    static configs = { use: [], set: {}};
 
     static prepare(app) {
         Back.applyConfigs(app);
@@ -37,14 +37,10 @@ export class Back {
                 else {
                      httpRequestMethod = "delete";
                 }
-                console.log("router[httpRequestMethod]: " + router[httpRequestMethod])
-                console.log("methodHandler:" + methodHandler)
                 router[httpRequestMethod].call(router, methodHandler.route, (req, res, next) => {
                     methodHandler.call(req, res, next);
                 });
             }
-            console.log("back croute :" + controllerHandler.route)
-            console.log("back route :" + router)
             app.use(controllerHandler.route, router);
         }
     }
@@ -56,16 +52,16 @@ export class Back {
     }
 
     static applyConfigs(app) {
-        // console.log(Back.configs)
+        console.log(Back.configs)
         
-        // Back.configs.use
-        //     .forEach( middleware => {
-        //         console.log("middleware:" + middleware)
-        //         app.use(middleware);
-        //     });
-        // for (let setting in Back.configs.set) {
-        //     let _setting = splitCamelCase(setting).toLocaleLowerCase();
-        //     app.set(_setting, Back.configs.set[setting]);
-        // }
+        Back.configs.use
+            .forEach( middleware => {
+                console.log("middleware:" + middleware)
+                app.use(middleware);
+            });
+        for (let setting in Back.configs.set) {
+            let _setting = splitCamelCase(setting).toLocaleLowerCase();
+            app.set(_setting, Back.configs.set[setting]);
+        }
     }
 }
