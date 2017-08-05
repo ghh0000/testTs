@@ -24,8 +24,6 @@ exports.BackApplication = BackApplication_1.BackApplication;
 class Back {
     static prepare(app) {
         Back.applyConfigs(app);
-        console.log("1111111111111111111111");
-        console.log(container_1.Container.controllerHandlers);
         for (let controller in container_1.Container.controllerHandlers) {
             let controllerHandler = container_1.Container.controllerHandlers[controller];
             let router = express.Router();

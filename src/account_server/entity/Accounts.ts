@@ -1,4 +1,4 @@
-import {Entity, PrimaryColumn, Column, ManyToMany, JoinTable} from "typeorm";
+import {Entity, PrimaryColumn, Column} from "typeorm";
 /**
  * 账号
  * 

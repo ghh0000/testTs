@@ -17,7 +17,6 @@ import getFunctionParametersNames =  require("get-parameter-names");
  * ```
  */
 export function Controller(target: Function) {
-    console.log(target)
     const dependencies = Reflect.getMetadata("design:paramtypes", target);
 
     let controllerName = target["name"];

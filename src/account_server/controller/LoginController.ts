@@ -31,7 +31,9 @@ class LoginController{
                 erode: 0, 
                 errs : "ok", 
                 account: prefixAccount, 
-                sign : md5Util(prefixAccount + req.ip + Back.configs.set['ACCOUNT_PRI_KEY'])}
+                sign : md5Util(prefixAccount + req.ip + Back.configs.set['ACCOUNT_PRI_KEY']),
+                hallAddr: Back.configs.set['HALL_IP'] + ":" + Back.configs.set['HALL_IP']
+            }
             
         } else {
             return {erode : 3, errs : "invalid account"};
@@ -54,7 +56,9 @@ class LoginController{
                 erode: 0, 
                 errs : "ok", 
                 account: guestAccount, 
-                sign : md5Util(prefixAccount + req.ip + Back.configs.set['ACCOUNT_PRI_KEY'])}
+                sign : md5Util(prefixAccount + req.ip + Back.configs.set['ACCOUNT_PRI_KEY']),
+                hallAddr: Back.configs.set['HALL_IP'] + ":" + Back.configs.set['HALL_IP']
+            }
             }
         else{
             return {erode : 4, errs : "visitor account failed"};

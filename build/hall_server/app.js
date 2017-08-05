@@ -14,13 +14,11 @@ const bodyParser = require("body-parser");
 // import { AppRoutes } from "./routes";
 const index_1 = require("../back/index");
 /**
+ * 导入 实体 entity
+ */
+/**
  * 导入 控制器 controller
  */
-require("./controller/PostGetAllAction");
-require("./controller/AccountController");
-require("./controller/LoginController");
-require("./controller/ServerVersion");
-require("./controller/ServerInfo");
 /**
  * 配置加载
  * dev 使用 ./optionsDev

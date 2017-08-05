@@ -14,8 +14,6 @@ export class Back {
 
     static prepare(app) {
         Back.applyConfigs(app);
-        console.log("1111111111111111111111")
-        console.log(Container.controllerHandlers);
         for (let controller in Container.controllerHandlers) {
             let controllerHandler = Container.controllerHandlers[controller];
             let router = express.Router();
@@ -52,11 +50,8 @@ export class Back {
     }
 
     static applyConfigs(app) {
-        console.log(Back.configs)
-        
         Back.configs.use
             .forEach( middleware => {
-                console.log("middleware:" + middleware)
                 app.use(middleware);
             });
         for (let setting in Back.configs.set) {

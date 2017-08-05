@@ -1,5 +1,6 @@
 /**
  * All application routes.
+ * 开发环境配置数据
  */
 import { ConnectionOptions } from "typeorm";
 

@@ -8,17 +8,11 @@ import { Back, Request, Response, Controller, Get, Route } from "../back/index";
 /**
  * 导入 实体 entity
  */
-import { Category } from "./entity/Category";
-import { Post } from "./entity/Post";
 
 /**
  * 导入 控制器 controller
  */
-import "./controller/PostGetAllAction";
-import "./controller/AccountController";
-import "./controller/LoginController";
-import "./controller/ServerVersion";
-import "./controller/ServerInfo";
+
 
 /**
  * 配置加载
