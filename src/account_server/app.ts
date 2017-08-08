@@ -41,8 +41,9 @@ createConnection(config.connectionOptions).then(async connection => {
     app.use(bodyParser.json());
     Back.prepare(app)
     // run app
-    app.listen(3000);
+    let port = config.account_server.ACCOUNT_CLIENT_PORT
+    app.listen(port);
 
-    console.log("Express application < account server > is up and running on port 3000");
+    console.log("Express application < account server > is up and running on port " + port);
 
 }).catch(error => console.log("TypeORM connection error: ", error));

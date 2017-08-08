@@ -3,10 +3,7 @@
  * 开发环境配置数据
  */
 import { ConnectionOptions } from "typeorm";
-
-import { Category } from "./entity/Category";
-import { Post } from "./entity/Post";
-import { Accounts } from "./entity/Accounts";
+import { Users } from "./entity/Users";
 
 /**
  * 基础配置
@@ -33,7 +30,7 @@ export const connectionOptions : ConnectionOptions = {
     password: "123456",
     database: "civilizationdb",
     entities: [
-        Category, Post, Accounts,
+        Users
     ],
     autoSchemaSync: true,
 }
@@ -42,10 +39,11 @@ let ACCOUNT_CLIENT_PORT = 9000
 /**
  * 账号服配置
  */
-export const account_server = {
-    ACCOUNT_CLIENT_PORT:ACCOUNT_CLIENT_PORT,
-    ACCOUNT_PRI_KEY: ACCOUNT_PRI_KEY,
-    VERSION: "00.00.01",
-    HALL_IP: HALL_IP,
-    HALL_CLIENT_PORT: HALL_CLIENT_PORT
+export const hall_server = {
+	HALL_IP:HALL_IP,
+    HALL_CLIENT_PORT:HALL_CLIENT_PORT,
+    FOR_ROOM_IP:LOCAL_IP,
+    ROOM_PORT:HALL_ROOM_PORT,
+    ACCOUNT_PRI_KEY:ACCOUNT_PRI_KEY,
+    ROOM_PRI_KEY:ROOM_PRI_KEY
 }

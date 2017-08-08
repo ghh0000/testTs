@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Category_1 = require("./entity/Category");
-const Post_1 = require("./entity/Post");
-const Accounts_1 = require("./entity/Accounts");
+const Users_1 = require("./entity/Users");
 /**
  * 基础配置
  */
@@ -24,7 +22,7 @@ exports.connectionOptions = {
     password: "123456",
     database: "civilizationdb",
     entities: [
-        Category_1.Category, Post_1.Post, Accounts_1.Accounts,
+        Users_1.Users
     ],
     autoSchemaSync: true,
 };
@@ -32,10 +30,11 @@ let ACCOUNT_CLIENT_PORT = 9000;
 /**
  * 账号服配置
  */
-exports.account_server = {
-    ACCOUNT_CLIENT_PORT: ACCOUNT_CLIENT_PORT,
-    ACCOUNT_PRI_KEY: ACCOUNT_PRI_KEY,
-    VERSION: "00.00.01",
+exports.hall_server = {
     HALL_IP: HALL_IP,
-    HALL_CLIENT_PORT: HALL_CLIENT_PORT
+    HALL_CLIENT_PORT: HALL_CLIENT_PORT,
+    FOR_ROOM_IP: LOCAL_IP,
+    ROOM_PORT: HALL_ROOM_PORT,
+    ACCOUNT_PRI_KEY: ACCOUNT_PRI_KEY,
+    ROOM_PRI_KEY: ROOM_PRI_KEY
 };

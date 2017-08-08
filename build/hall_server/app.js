@@ -14,11 +14,9 @@ const bodyParser = require("body-parser");
 // import { AppRoutes } from "./routes";
 const index_1 = require("../back/index");
 /**
- * 导入 实体 entity
- */
-/**
  * 导入 控制器 controller
  */
+require("./controller/LoginController");
 /**
  * 配置加载
  * dev 使用 ./optionsDev
@@ -38,6 +36,7 @@ typeorm_1.createConnection(config.connectionOptions).then((connection) => __awai
     app.use(bodyParser.json());
     index_1.Back.prepare(app);
     // run app
-    app.listen(3000);
-    console.log("Express application < account server > is up and running on port 3000");
+    let port = config.hall_server.HALL_CLIENT_PORT;
+    app.listen(port);
+    console.log("Express application < hall server > is up and running on port " + port);
 })).catch(error => console.log("TypeORM connection error: ", error));

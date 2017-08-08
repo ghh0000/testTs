@@ -57,10 +57,8 @@ class Back {
         Back.Container.components = [];
     }
     static applyConfigs(app) {
-        console.log(Back.configs);
         Back.configs.use
             .forEach(middleware => {
-            console.log("middleware:" + middleware);
             app.use(middleware);
         });
         for (let setting in Back.configs.set) {

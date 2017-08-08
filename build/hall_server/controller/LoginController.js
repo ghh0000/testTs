@@ -18,12 +18,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../back/index");
-const AccountsService_1 = require("../service/AccountsService");
-const crypto_1 = require("../../utils/crypto");
-let uuid = require("uuid");
+const UsersService_1 = require("../service/UsersService");
+// import { md5Util } from "../../utils/crypto";
+// let uuid = require("uuid")
 let LoginController = class LoginController {
-    constructor(accountsService) {
-        this.accountsService = accountsService;
+    constructor(usersService) {
+        this.usersService = usersService;
     }
     /**
      *  账号登录
@@ -33,65 +33,45 @@ let LoginController = class LoginController {
      *      password string 密码
      *
      **/
-    auth(req, res, account, password) {
+    auth(req, res, account, sign) {
         return __awaiter(this, void 0, void 0, function* () {
-            let flag = yield this.accountsService.checkAccount(account); //判断账号是否已经存在
+            let flag = yield this.usersService.checkUser(account); //判断账号是否已经存在
             if (flag) {
-                let prefixAccount = "ChessAndCard_" + account;
+                let user = yield this.usersService.getUserByAccount(account);
                 // TODO
-                // 创建user
+                // 还是否存在房间
                 return {
                     erode: 0,
                     errs: "ok",
-                    account: prefixAccount,
-                    sign: crypto_1.md5Util(prefixAccount + req.ip + index_1.Back.configs.set['ACCOUNT_PRI_KEY']),
-                    hallAddr: index_1.Back.configs.set['HALL_IP'] + ":" + index_1.Back.configs.set['HALL_IP']
+                    // user info 
+                    uid: user.uid,
+                    account: user.account,
+                    name: user.name,
+                    lv: user.lv,
+                    exp: user.exp,
+                    coins: user.coins,
+                    gems: user.gems,
+                    sex: user.sex,
                 };
             }
             else {
-                return { erode: 3, errs: "invalid account" };
-            }
-        });
-    }
-    guest(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let guestAccount = uuid.v1();
-            let password = '123456';
-            let result = yield this.accountsService.setAccount(guestAccount, password);
-            if (result) {
-                let prefixAccount = "ChessAndCardGuest_" + guestAccount;
-                // TODO
-                // 创建user
                 return {
-                    erode: 0,
-                    errs: "ok",
-                    account: guestAccount,
-                    sign: crypto_1.md5Util(prefixAccount + req.ip + index_1.Back.configs.set['ACCOUNT_PRI_KEY']),
-                    hallAddr: index_1.Back.configs.set['HALL_IP'] + ":" + index_1.Back.configs.set['HALL_IP']
+                    erode: 5,
+                    errs: "not init user",
                 };
-            }
-            else {
-                return { erode: 4, errs: "visitor account failed" };
             }
         });
     }
 };
 __decorate([
-    index_1.Get("/auth"),
+    index_1.Get("/"),
     index_1.ResponseBody,
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [index_1.Request, index_1.Response, String, String]),
     __metadata("design:returntype", Promise)
 ], LoginController.prototype, "auth", null);
-__decorate([
-    index_1.Get("/guest"),
-    index_1.ResponseBody,
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [index_1.Request, index_1.Response]),
-    __metadata("design:returntype", Promise)
-], LoginController.prototype, "guest", null);
 LoginController = __decorate([
     index_1.Controller,
     index_1.Route("/login"),
-    __metadata("design:paramtypes", [AccountsService_1.AccountsService])
+    __metadata("design:paramtypes", [UsersService_1.UsersService])
 ], LoginController);

@@ -8,10 +8,12 @@ import { Back, Request, Response, Controller, Get, Route } from "../back/index";
 /**
  * 导入 实体 entity
  */
+import { Users } from "./entity/Users";
 
 /**
  * 导入 控制器 controller
  */
+import "./controller/LoginController";
 
 
 /**
@@ -35,8 +37,8 @@ createConnection(config.connectionOptions).then(async connection => {
     app.use(bodyParser.json());
     Back.prepare(app)
     // run app
-    app.listen(3000);
-
-    console.log("Express application < account server > is up and running on port 3000");
+    let port = config.hall_server.HALL_CLIENT_PORT
+    app.listen(port);
+    console.log("Express application < hall server > is up and running on port " + port);
 
 }).catch(error => console.log("TypeORM connection error: ", error));
