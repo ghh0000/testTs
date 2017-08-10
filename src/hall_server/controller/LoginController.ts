@@ -1,8 +1,6 @@
 import { Back, Request, Response, Controller, Get, Route, RequestBody, ResponseBody } from "../../back/index";
 import { UsersService } from "../service/UsersService";
 import { Users } from "../entity/Users";
-// import { md5Util } from "../../utils/crypto";
-// let uuid = require("uuid")
 
 @Controller
 @Route("/login")
@@ -21,7 +19,7 @@ class LoginController{
      **/
     @Get("/")
     @ResponseBody
-    async auth(req : Request ,res : Response, account : string, sign : string ){
+    async login(req : Request ,res : Response, account : string, sign : string ){
         let flag  = await this.usersService.checkUser(account); //判断账号是否已经存在
         if (flag) {
             let user = await this.usersService.getUserByAccount(account)

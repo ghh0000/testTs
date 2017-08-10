@@ -18,58 +18,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../back/index");
-const UsersService_1 = require("../service/UsersService");
-let LoginController = class LoginController {
-    constructor(usersService) {
-        this.usersService = usersService;
+const RoomsService_1 = require("../service/RoomsService");
+const crypto_1 = require("../../utils/crypto");
+let CreateRoomController = class CreateRoomController {
+    constructor(roomsService) {
+        this.roomsService = roomsService;
     }
-    /**
-     *  账号登录
-     *
-     *  param:
-     *      account string 账号
-     *      password string 密码
-     *
-     **/
-    login(req, res, account, sign) {
+    create(req, res, uid, sign, gems, conf) {
         return __awaiter(this, void 0, void 0, function* () {
-            let flag = yield this.usersService.checkUser(account); //判断账号是否已经存在
-            if (flag) {
-                let user = yield this.usersService.getUserByAccount(account);
-                // TODO
-                // 还是否存在房间
-                return {
-                    erode: 0,
-                    errs: "ok",
-                    // user info 
-                    uid: user.uid,
-                    account: user.account,
-                    name: user.name,
-                    lv: user.lv,
-                    exp: user.exp,
-                    coins: user.coins,
-                    gems: user.gems,
-                    sex: user.sex,
-                };
-            }
-            else {
-                return {
-                    erode: 5,
-                    errs: "not init user",
-                };
-            }
+            let needStr = uid + conf + gems + index_1.Back.configs.set["ROOM_PRI_KEY"];
+            // console.log(needStr)
+            let flag = this.checkSign(sign, needStr);
+            console.log(flag);
         });
+    }
+    checkSign(sign, needStr) {
+        if (crypto_1.md5Util(needStr) != sign) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 };
 __decorate([
     index_1.Get("/"),
     index_1.ResponseBody,
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [index_1.Request, index_1.Response, String, String]),
+    __metadata("design:paramtypes", [index_1.Request,
+        index_1.Response, Number, String, Number, String]),
     __metadata("design:returntype", Promise)
-], LoginController.prototype, "login", null);
-LoginController = __decorate([
+], CreateRoomController.prototype, "create", null);
+CreateRoomController = __decorate([
     index_1.Controller,
-    index_1.Route("/login"),
-    __metadata("design:paramtypes", [UsersService_1.UsersService])
-], LoginController);
+    index_1.Route("/create_room"),
+    __metadata("design:paramtypes", [RoomsService_1.RoomsService])
+], CreateRoomController);

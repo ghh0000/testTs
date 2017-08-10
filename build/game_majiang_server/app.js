@@ -16,8 +16,7 @@ const index_1 = require("../back/index");
 /**
  * 导入 控制器 controller
  */
-require("./controller/LoginController");
-require("./controller/CreateUserController");
+require("./controller/CreateRoomController");
 /**
  * 配置加载
  * dev 使用 ./optionsDev
@@ -25,7 +24,7 @@ require("./controller/CreateUserController");
  */
 const BackApplication_1 = require("../back/BackApplication");
 let config = require(process.argv[2]);
-let application = BackApplication_1.BackApplication({ use: [], set: config.hall_server });
+let application = BackApplication_1.BackApplication({ use: [], set: config.game_server });
 application.call(this);
 // create connection with database
 // note that its not active database connection
@@ -37,7 +36,7 @@ typeorm_1.createConnection(config.connectionOptions).then((connection) => __awai
     app.use(bodyParser.json());
     index_1.Back.prepare(app);
     // run app
-    let port = config.hall_server.HALL_CLIENT_PORT;
+    let port = config.game_server.HTTP_PORT;
     app.listen(port);
-    console.log("Express application < hall server > is up and running on port " + port);
+    console.log("Express application < game majiang server > is up and running on port " + port);
 })).catch(error => console.log("TypeORM connection error: ", error));

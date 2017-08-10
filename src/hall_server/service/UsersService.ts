@@ -1,7 +1,6 @@
 import { Service } from "../../back/index";
 import { getEntityManager } from "typeorm";
 import { Users } from "../entity/Users";
-import { md5Util } from "../../utils/crypto";
 
 @Service
 export class UsersService{
@@ -25,8 +24,7 @@ export class UsersService{
                     
     }
 
-    async setUser(uid : number, 
-                  account : string, 
+    async setUser(account : string, 
                   name: string, 
                   sex: number, 
                   headimg: string, 
@@ -39,7 +37,6 @@ export class UsersService{
         let postRepository = getEntityManager().getRepository(Users);
 
         let userSave = new Users();
-        userSave.uid =uid;
         userSave.account = account;
         userSave.name = name;
         userSave.sex = sex;

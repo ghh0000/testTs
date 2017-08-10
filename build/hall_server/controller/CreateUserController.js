@@ -19,44 +19,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../back/index");
 const UsersService_1 = require("../service/UsersService");
-let LoginController = class LoginController {
+let CreateUserController = class CreateUserController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    /**
-     *  账号登录
-     *
-     *  param:
-     *      account string 账号
-     *      password string 密码
-     *
-     **/
-    login(req, res, account, sign) {
+    create(req, res, account, name) {
         return __awaiter(this, void 0, void 0, function* () {
-            let flag = yield this.usersService.checkUser(account); //判断账号是否已经存在
+            let flag = yield this.usersService.checkUser(account);
             if (flag) {
-                let user = yield this.usersService.getUserByAccount(account);
-                // TODO
-                // 还是否存在房间
                 return {
-                    erode: 0,
-                    errs: "ok",
-                    // user info 
-                    uid: user.uid,
-                    account: user.account,
-                    name: user.name,
-                    lv: user.lv,
-                    exp: user.exp,
-                    coins: user.coins,
-                    gems: user.gems,
-                    sex: user.sex,
+                    erode: 6,
+                    errs: "user existed",
                 };
             }
             else {
-                return {
-                    erode: 5,
-                    errs: "not init user",
-                };
+                let nameBase64 = new Buffer(name).toString("base64");
+                let sex = 0;
+                let headimg = '';
+                let lv = 1;
+                let exp = 0;
+                let coins = 100000;
+                let gems = 100000;
+                let roomid = '';
+                let res = yield this.usersService.setUser(account, nameBase64, sex, headimg, lv, exp, coins, gems, roomid);
+                if (res) {
+                    return {
+                        erode: 0,
+                        errs: "ok",
+                    };
+                }
+                else {
+                    return {
+                        erode: 7,
+                        errs: "system err",
+                    };
+                }
             }
         });
     }
@@ -67,9 +64,9 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [index_1.Request, index_1.Response, String, String]),
     __metadata("design:returntype", Promise)
-], LoginController.prototype, "login", null);
-LoginController = __decorate([
+], CreateUserController.prototype, "create", null);
+CreateUserController = __decorate([
     index_1.Controller,
-    index_1.Route("/login"),
+    index_1.Route("/create_user"),
     __metadata("design:paramtypes", [UsersService_1.UsersService])
-], LoginController);
+], CreateUserController);

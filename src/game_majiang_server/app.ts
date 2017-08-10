@@ -8,13 +8,12 @@ import { Back, Request, Response, Controller, Get, Route } from "../back/index";
 /**
  * 导入 实体 entity
  */
-import { Users } from "./entity/Users";
+import { Rooms } from "./entity/Rooms";
 
 /**
  * 导入 控制器 controller
  */
-import "./controller/LoginController";
-import "./controller/CreateUserController";
+import "./controller/CreateRoomController";
 
 
 /**
@@ -24,7 +23,7 @@ import "./controller/CreateUserController";
  */
 import { BackApplication } from "../back/BackApplication";
 let config = require(process.argv[2])
-let application = BackApplication({use: [], set: config.hall_server})
+let application = BackApplication({use: [], set: config.game_server})
 application.call(this)
 
 // create connection with database
@@ -38,8 +37,8 @@ createConnection(config.connectionOptions).then(async connection => {
     app.use(bodyParser.json());
     Back.prepare(app)
     // run app
-    let port = config.hall_server.HALL_CLIENT_PORT
+    let port = config.game_server.HTTP_PORT
     app.listen(port);
-    console.log("Express application < hall server > is up and running on port " + port);
+    console.log("Express application < game majiang server > is up and running on port " + port);
 
 }).catch(error => console.log("TypeORM connection error: ", error));
