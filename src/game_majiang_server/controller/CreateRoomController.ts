@@ -26,10 +26,10 @@ class CreateRoomController {
         let flag = this.checkSign(sign, needStr)
         console.log(flag)
 
-        if (flag) {
-
+        if (flag) {//校验成功
+            conf = JSON.parse(conf);
         }
-        else {
+        else {//校验失败
             return {
                 erode: 8,
                 errs: "sign failed",

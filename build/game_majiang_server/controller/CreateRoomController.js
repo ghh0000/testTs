@@ -20,19 +20,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../../back/index");
 const RoomsService_1 = require("../service/RoomsService");
 const crypto_1 = require("../../utils/crypto");
+/**
+ * 创建房间
+ */
 let CreateRoomController = class CreateRoomController {
     constructor(roomsService) {
         this.roomsService = roomsService;
     }
     create(req, res, uid, sign, gems, conf) {
         return __awaiter(this, void 0, void 0, function* () {
-            let needStr = uid + conf + gems + index_1.Back.configs.set["ROOM_PRI_KEY"];
+            let needStr = uid + conf + gems + index_1.Back.configs.set["ROOM_PRI_KEY"]; //生成sign的拼接字符串
             // console.log(needStr)
             let flag = this.checkSign(sign, needStr);
             console.log(flag);
+            if (flag) {
+                conf = JSON.parse(conf);
+            }
+            else {
+                return {
+                    erode: 8,
+                    errs: "sign failed",
+                };
+            }
         });
     }
     checkSign(sign, needStr) {
+        /**
+         * 校验sign
+         */
         if (crypto_1.md5Util(needStr) != sign) {
             return false;
         }

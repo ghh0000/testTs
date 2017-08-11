@@ -21,7 +21,6 @@ describe("@Get", () => {
             let ProductController = class ProductController {
                 constructor() { }
                 someMethod(req, res) {
-                    console.log("111111111111111111111");
                     res.end("I just received data");
                 }
             };
@@ -40,7 +39,6 @@ describe("@Get", () => {
             app.use(bodyParser.json());
             app.use(bodyParser.urlencoded({ extended: false }));
             index_1.Back.prepare(app);
-            console.log("ceshi 111111111111111");
             request(app)
                 .get("/product/")
                 .expect("I just received data", done);

@@ -16,7 +16,6 @@ describe("@Get", () => {
 
                 @Get("/")
                 someMethod(req: Request, res: Response) {
-                    console.log("111111111111111111111")
                     res.end("I just received data");
                 }
             }
@@ -27,7 +26,6 @@ describe("@Get", () => {
             app.use(bodyParser.urlencoded({ extended: false }));
 
             Back.prepare(app);
-            console.log("ceshi 111111111111111")
             request(app)
                 .get("/product/")
                 .expect("I just received data", done);
